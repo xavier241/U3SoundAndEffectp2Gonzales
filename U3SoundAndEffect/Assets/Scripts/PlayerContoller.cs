@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerContoller : MonoBehaviour
 {
+    public bool gameOver;
     private Rigidbody PlayerRb;
     public float jumpForce;
     public float gravityModifier;
@@ -28,7 +29,16 @@ public class PlayerContoller : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
-        isOnGround = true;
+       
+
+        if (collision.gameObject.CompareTag("Ground")) 
+        {
+            isOnGround = true;
+        } else if (collision.gameObject.CompareTag("Obstacle")) 
+        {
+            Debug.Log("Game Over");
+            gameOver = true;
+        }
     }
 
 
