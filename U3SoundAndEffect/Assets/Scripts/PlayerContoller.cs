@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerContoller : MonoBehaviour
 {
+    private Animator playerAnim;
     public bool gameOver;
     private Rigidbody PlayerRb;
     public float jumpForce;
@@ -13,6 +14,7 @@ public class PlayerContoller : MonoBehaviour
     void Start()
     {
        PlayerRb = GetComponent<Rigidbody>();
+        playerAnim = GetComponent<Animator>();
         Physics.gravity *= gravityModifier;
        
     }
@@ -20,10 +22,11 @@ public class PlayerContoller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && isOnGround)
+        if (Input.GetKeyDown(KeyCode.Space) && isOnGround && !gameOver )
         {
             PlayerRb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             isOnGround = false;
+            playerAnim.SetTrigger("Jump_trig");
         
         }
     }
@@ -38,6 +41,8 @@ public class PlayerContoller : MonoBehaviour
         {
             Debug.Log("Game Over");
             gameOver = true;
+            playerAnim.SetBool("Death_b", true);
+            playerAnim.SetInteger("DeathType_int", 1);
         }
     }
 
